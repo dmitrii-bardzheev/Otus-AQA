@@ -1,9 +1,14 @@
-class Figure:
-    def get_area(self):
-        raise NotImplementedError("Method must be implemented")
+from abc import ABC, abstractmethod
 
+
+class Figure(ABC):
+    @abstractmethod
+    def get_area(self):
+        pass
+
+    @abstractmethod
     def get_perimeter(self):
-        raise NotImplementedError("Method must be implemented")
+        pass
 
     def add_area(self, figure):
         if not isinstance(figure, Figure):
