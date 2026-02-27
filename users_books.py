@@ -2,38 +2,37 @@ import json
 import csv
 
 # Получение списка пользователей
-with open("users.json") as spi:
-    full_users = json.load(spi)
+with open("users.json") as users:
+    full_users_list = json.load(users)
 
 users_result = []
-for j in full_users:
-    newslo_user = {}
-    newslo_user["name"] = j["name"]
-    newslo_user["gender"] = j["gender"]
-    newslo_user["address"] = j["address"]
-    newslo_user["age"] = j["age"]
-    newslo_user["books"] = []
-    users_result.append(newslo_user)
+for j in full_users_list:
+    dict_user = {}
+    dict_user["name"] = j.get("name")
+    dict_user["gender"] = j.get("gender")
+    dict_user["address"] = j.get("address")
+    dict_user["age"] = j.get("age")
+    dict_user["books"] = []
+    users_result.append(dict_user)
 
 
 # Получение списка книг
-with open("books.csv") as opp:
-    full_books = list(csv.DictReader(opp))
+with open("books.csv") as books:
+    full_books = list(csv.DictReader(books))
 
 books_result = []
 for i in full_books:
-    temp_slo_books = {}
-    temp_slo_books['title'] = i['Title']
-    temp_slo_books['author'] = i['Author']
-    temp_slo_books['pages'] = int(i['Pages'])
-    temp_slo_books['genre'] = i['Genre']
-    books_result.append(temp_slo_books)
+    dict_books = {}
+    dict_books['title'] = i.get('Title')
+    dict_books['author'] = i.get('Author')
+    dict_books['pages'] = int(i.get('Pages'))
+    dict_books['genre'] = i.get('Genre')
+    books_result.append(dict_books)
 
 
 # Распределяем книги пользователям
-for p in range(len(books_result)):
-    users_result[p % len(users_result)]["books"].append(books_result[p])
-
+for ind, book in enumerate(books_result):
+    users_result[ind % len(users_result)]["books"].append(book)
 
 # Записываем в json
 with open("result.json", "w") as temp:
